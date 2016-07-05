@@ -1,4 +1,4 @@
-package UI;
+package ui;
 
 import android.animation.Animator;
 import android.content.Context;
