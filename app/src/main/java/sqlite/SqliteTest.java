@@ -1,6 +1,6 @@
 package sqlite;
 
-import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * Created by hyunji on 16. 7. 6..
@@ -8,30 +8,39 @@ import java.sql.Connection;
 public class SqliteTest {
 
     public static void main(String[] args) {
-        Connection c = null;
-        try {
-             c = SqliteUtil.connectDB();
-            if (c == null)
-                throw new NullPointerException();
+
+        try(SqliteUtil sqliteUtil = new SqliteUtil()) {
+            sqliteUtil.createTable();
+            sqliteUtil.insertRow();
+            sqliteUtil.selectRow();
 
             ///////////////
-            String query = "SELECT * FROM tbl_jelly_master LIMIT 1;";
-            JellyModel jm = SqliteUtil.get(c, query);
+            String query = "SELECT * FROM jelly_model LIMIT 1;";
+            JellyModel jm = sqliteUtil.selectRow(query);
             ///////////////
             if (jm != null) {
-                System.out.println("Success");
+                if(!jm.getTaste().equals("so sweet!!"))
+                    System.out.println("Success");
+                else
+                    throw new RuntimeException();
             } else {
                 throw new NullPointerException();
             }
-        } catch (Exception e ) {
+            ///
+            sqliteUtil.updateRow();
+            ////
+            JellyModel newJm = sqliteUtil.selectRow(query);
+            if(newJm.getTaste().equals("so sweet!!")) {
+                System.out.println("Success");
+            } else {
+                throw new RuntimeException("It is not sweet!");
+            }
+
+        } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if(c != null)
-                try {
-                    c.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
         }
     }
+
+
+
 }
