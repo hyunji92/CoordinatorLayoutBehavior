@@ -73,9 +73,10 @@ public class SqliteUtil implements AutoCloseable{
                 jm.setTaste(rs.getString("taste"));
                 jm.setDateAdded(rs.getString("date_added"));
                 System.out.println(jm);
+
+                return jm;
             }
 
-            return jm;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -121,5 +122,15 @@ public class SqliteUtil implements AutoCloseable{
             e.printStackTrace();
         }
 
+    }
+
+    public void deleteRow() {
+        try(Statement s = c.createStatement();) {
+            String sql = "DELETE FROM jelly_model;";
+            s.execute(sql);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

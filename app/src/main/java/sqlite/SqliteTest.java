@@ -14,6 +14,8 @@ public class SqliteTest {
             sqliteUtil.insertRow();
             sqliteUtil.selectRow();
 
+
+
             ///////////////
             String query = "SELECT * FROM jelly_model LIMIT 1;";
             JellyModel jm = sqliteUtil.selectRow(query);
@@ -36,9 +38,19 @@ public class SqliteTest {
                 throw new RuntimeException("It is not sweet!");
             }
 
+
+            sqliteUtil.deleteRow();
+            JellyModel deletedJellyModel = sqliteUtil.selectRow(query);
+            if(deletedJellyModel == null){
+                System.out.println("Success!!! > < ");
+            } else {
+                System.out.println("Fail ㅠㅠㅠㅠ");
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
 
 
