@@ -10,12 +10,15 @@ import io.realm.RealmResults;
 public class Jelly {
     public static void main(String[] args) {
         Realm realm = Realm.getDefaultInstance();
+
         realm.beginTransaction();
+
         KukeModel user = realm.createObject(KukeModel.class); // Create a new object
         user.setInnerHack("jelly");
         user.setOuterHack("you look like mirro");
         // INSERT INTO tbl_kuke (inner_hack, outer_hack) VALUES ( "jelly", "you look like mirro");
         realm.commitTransaction();
+
         RealmQuery<KukeModel> kukeQuery = realm.where(KukeModel.class);
         kukeQuery
                 .equalTo("innerHack", "jelly")
